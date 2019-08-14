@@ -45,7 +45,7 @@ function searchVin(callback) {
 
 function sendVin() {
   const CHAT_ID = config.config.telegram_user_id;
-  const json = require('./vinnumber.json');
+  const json = require('./../vinnumber.json');
   if (json.vin) {
     client.sendMessage(CHAT_ID, `VIN FOUND! ` + json.vin, {
       disable_web_page_preview: true,
