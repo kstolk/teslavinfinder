@@ -26,7 +26,7 @@ config.ts should contain the following:
 | rn_number | Your RN number which you can find in the URL when you click "Manage" in your Tesla account|
 | bot_key | Telegram bot access token |
 |telegram_user_id | Your Telegram user ID |
-|alwayssendresult |When set to true, you will get a message anytime the script ran|
+|alwayssendresult |When set to true, you will get a message anytime the script ran, otherwise only when there is a VIN found|
 |timerminutes| Set to 15, this means every 15 minutes it will do a check if there is a VIN.|
  
 
