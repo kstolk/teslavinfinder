@@ -1,0 +1,11 @@
+{
+  "allowSyntheticDefaultImports": true,
+  "files": [
+    "src/index.ts"
+  ],
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "outDir": "dist",
+    "module": "commonjs",
+  }
+}

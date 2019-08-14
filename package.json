@@ -1,0 +1,33 @@
+{
+  "name": "teslavinfinder",
+  "version": "0.1.0",
+  "description": "Get tesla json data from website via puppeteer",
+  "author": "Cyw00d",
+  "main": "index.js",
+  "scripts": {
+    "test": "ts-node-dev ./src/test.ts",
+    "tsc": "tsc",
+    "dev": "ts-node-dev ./src/index.ts",
+    "getvin": "ts-node-dev ./src/getVIN.ts",
+    "sendinventory": "ts-node-dev ./src/sendinventory.ts",
+    "sendvin": "ts-node-dev ./src/sendvin.ts"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "fs": "0.0.1-security",
+    "messaging-api-telegram": "^0.7.11",
+    "puppeteer": "^1.19.0",
+    "telegraf": "^3.32.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.0",
+    "@types/express-session": "^1.15.11",
+    "@types/node": "^10.12.18",
+    "@types/request": "^2.48.1",
+    "ts-node-dev": "^1.0.0-pre.32",
+    "typescript": "^3.2.4"
+  }
+}
