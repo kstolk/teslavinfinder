@@ -3,6 +3,7 @@
 NodeJS puppeteer script to find VIN in source code of Tesla account
 
 ## First time setup:
+Everything runs in the command line.
 
 Make sure you have installed NodeJS (https://nodejs.org/en/download/), otherwise you won't be able to run the NPM commands.
 Type `npm install` from the root folder to get the dependancies
