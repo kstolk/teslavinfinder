@@ -16,6 +16,8 @@ https://support.messagebird.com/hc/en-us/articles/209599965-How-to-add-a-Telegra
 Get your own user ID of telegram, you can do that here:
 https://bigone.zendesk.com/hc/en-us/articles/360008014894-How-to-get-the-Telegram-user-ID-
 
+When this is in place make sure you open a new conversation with your own Bot so you'll receive the messages the script will send you.
+
 ### Setup config file
 
 config.ts should contain the following:
