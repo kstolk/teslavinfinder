@@ -5,7 +5,7 @@
   "author": "Cyw00d",
   "main": "index.js",
   "scripts": {
-    "getvin": "ts-node ./src/getVIN.ts",
+    "getvin": "ts-node ./src/getVIN.ts"
   },
   "license": "MIT",
   "dependencies": {
