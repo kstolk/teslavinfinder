@@ -27,13 +27,19 @@ function searchVin(callback) {
     
     let pageContent = await page.goto('https://www.tesla.com/nl_NL/teslaaccount/product-finalize?rn=' + config.config.rn_number, { options: { waitUntil: 'networkidle0' } });
     // await page.screenshot({path: 'vin.png'}); // make screenshot and save as vin.png
-    await page.type('input[placeholder=Email]', config.config.mail, {delay: 10});
-    await page.type('input[placeholder=Password]', config.config.password, {delay: 10});
-    await page.click('.button.login-button');
+	try {
+		await page.type('input[placeholder=Email]', config.config.mail, {delay: 10});
+	    await page.type('input[placeholder=Password]', config.config.password, {delay: 10});
+	    await page.click('.button.login-button');
+	} catch(error) {
+		console.log('Could not find input fields');
+		callback();
+		return;
+	}
     await delay(2000)
     await page.goto('https://www.tesla.com/nl_NL/teslaaccount/product-finalize?rn=' + config.config.rn_number);
     await delay(2000)
-    const found = (await page.content()).match(/5YJ3/gi);
+    const found = await page.content().match(/5YJ3/gi);
     console.log('Found?', found);
     fs.writeFile('./vinnumber.json', JSON.stringify({ vin: found }), err => err ? console.log('Data not written: ', err) : console.log('VIN result saved'));
     await browser.close();
