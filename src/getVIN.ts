@@ -39,7 +39,7 @@ function searchVin(callback) {
     await delay(2000)
     await page.goto('https://www.tesla.com/nl_NL/teslaaccount/product-finalize?rn=' + config.config.rn_number);
     await delay(2000)
-    const found = await page.content().match(/5YJ3/gi);
+    const found = (await page.content()).match(/5YJ3.+?(?=\")/gi);
     console.log('Found?', found);
     fs.writeFile('./vinnumber.json', JSON.stringify({ vin: found }), err => err ? console.log('Data not written: ', err) : console.log('VIN result saved'));
     await browser.close();
@@ -53,11 +53,11 @@ function sendVin() {
   const CHAT_ID = config.config.telegram_user_id;
   const json = require('./../vinnumber.json');
   if (json.vin) {
-    client.sendMessage(CHAT_ID, `VIN FOUND! ` + json.vin, {
+    client.sendMessage(CHAT_ID, `Your tesla vin is: ` + json.vin, {
       disable_web_page_preview: true,
     });
   } else if (config.config.alwayssendresult) {
-    client.sendMessage(CHAT_ID, `Is there a VIN Found? ` + json.vin, {
+    client.sendMessage(CHAT_ID, json.vin ? 'Your vin is: ' + json.vin : 'No vin found', {
       disable_web_page_preview: true,
     });
   }
