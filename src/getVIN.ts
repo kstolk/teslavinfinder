@@ -70,7 +70,7 @@ function sendVin() {
 			console.log('VIN: Nothing changed. Not sending any message.');
 	else {
 		var message = 'Your Tesla VIN ' + ( cur.vin === old.vin ? 'is unchanged' : 'has CHANGED' ) + ': ' + ( cur.vin ? cur.vin : 'No VIN' );
-		if (old.vin)
+		if (old.vin && cur.vin !== old.vin)
 			message += ' (last VIN: ' + ( old.vin ? old.vin : 'No VIN' ) + ')';
 
 		console.log('Sending message to ' + CHAT_ID + ' - ' + message);
@@ -87,7 +87,7 @@ function sendVinIsRevealed() {
 			console.log('VIN isRevealed: Nothing changed. Not sending any message.');
 	else {
 		var message = 'Your Tesla VIN isRevealed ' + ( cur.vinIsRevealed === old.vinIsRevealed ? 'is unchanged' : 'has CHANGED' ) + ': ' + ( cur.vinIsRevealed ? cur.vinIsRevealed : 'No information' );
-		if (old.vinIsRevealed)
+		if (old.vinIsRevealed && cur.vinIsRevealed !== old.vinIsRevealed)
 			message += ' (last VIN isRevealed: ' + ( old.vinIsRevealed ? old.vinIsRevealed : 'No VIN isRevealed' ) + ')';
 
 		console.log('Sending message to ' + CHAT_ID + ' - ' + message);
@@ -104,7 +104,7 @@ function sendDeliveryDate() {
 			console.log('Delivery date: Nothing changed. Not sending any message.');
 	else {
 		var message = 'Your Tesla delivery date ' + ( cur.deliveryDate === old.deliveryDate ? 'is unchanged' : 'has CHANGED' ) + ': ' + ( cur.deliveryDate ? cur.deliveryDate : 'No delivery date' );
-		if (old.deliveryDate)
+		if (old.deliveryDate && cur.deliveryDate !== old.deliveryDate)
 			message += ' (last delivery date: ' + ( old.deliveryDate ? old.deliveryDate : 'No delivery date' ) + ')';
 
 		console.log('Sending message to ' + CHAT_ID + ' - ' + message);
