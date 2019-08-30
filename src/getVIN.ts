@@ -25,21 +25,37 @@ function search(callback) {
       height: 1080
     });
     
-    let pageContent = await page.goto('https://www.tesla.com/de_DE/teslaaccount/product-finalize?rn=' + config.config.rn_number, { options: { waitUntil: 'networkidle0' } });
+    try {
+      let pageContent = await page.goto('https://www.tesla.com/de_DE/teslaaccount/product-finalize?rn=' + config.config.rn_number, { options: { waitUntil: 'networkidle0' } });
+    } catch(error) {
+      console.log('ERROR: Could not load product page to login: ', error)
+      await browser.close();
+      callback();
+      return;
+    }
+
     // await page.screenshot({path: 'vin.png'}); // make screenshot and save as vin.png
     try {
       await page.type('input[placeholder=Email]', config.config.mail, {delay: 10});
       await page.type('input[placeholder=Password]', config.config.password, {delay: 10});
       await page.click('.button.login-button');
     } catch(error) {
-      console.log('Could not find input fields');
+      console.log('ERROR: Could not find input fields to login: ', error);
+      await browser.close();
       callback();
       return;
     }
 
-    await delay(2000)
-    await page.goto('https://www.tesla.com/de_DE/teslaaccount/product-finalize?rn=' + config.config.rn_number);
-    await delay(2000)
+    try {
+      await delay(2000)
+      await page.goto('https://www.tesla.com/de_DE/teslaaccount/product-finalize?rn=' + config.config.rn_number);
+      await delay(2000)
+    } catch(error) {
+      console.log('ERROR: Could not load product page after login: ', error);
+      await browser.close();
+      callback();
+      return;
+    }
 
     try {
       const fullPage = (await page.content());
@@ -56,14 +72,22 @@ function search(callback) {
 
       await browser.close();
 
-      fs.writeFile('./vinnumber.json', JSON.stringify(cur), err => err ? console.log('Data not written: ', err) : console.log('Results saved: ' + "\n\tVIN: " + cur.vin + "\n\tVIN is revealed: " + cur.vinIsRevealed + "\n\tDelivery date: " + cur.deliveryDate + "\n"));
-
       sendVin();
       sendVinIsRevealed();
       sendDeliveryDate();
-    } catch(err) {
-      console.log('ERROR: Reading results from the headless Chrome node failed: ', err);
+    } catch(error) {
+      console.log('ERROR: Reading results from the headless Chrome node failed: ', error);
       await browser.close();
+      callback();
+      return;
+    }
+
+    try {
+      fs.writeFile('./vinnumber.json', JSON.stringify(cur), err => err ? console.log('Data not written: ', err) : console.log('Results saved: ' + "\n\tVIN: " + cur.vin + "\n\tVIN is revealed: " + cur.vinIsRevealed + "\n\tDelivery date: " + cur.deliveryDate + "\n"));
+    } catch(error) {
+			console.log('ERROR: Could not save information in ./vinnumber.json: ', error);
+      callback();
+      return;
     }
 
     callback();
@@ -145,7 +169,6 @@ fs.readFile('./vinnumber.json', 'utf8', (err, json) => {
     console.log("\tVIN is revealed: " + ( old.vinIsRevealed ? old.vinIsRevealed : 'No information on VIN reveal' ));
     console.log("\tDelivery date: " + ( old.deliveryDate ? old.deliveryDate : 'No information on delivery date' ));
     console.log("\n");
-
   } catch(err) {
     console.log('Error parsing JSON string in ./vinnumber.json: ', err);
   }
