@@ -16,14 +16,23 @@ const CHAT_ID = config.config.telegram_user_id;
 
 function search(callback) {
   (async () => {
-    const browser = await puppeteer.launch({args: ['--incognito', '--no-sandbox', '--disable-setuid-sandbox']});
-    const page = await browser.newPage();
-    await page.setCacheEnabled(false);
+    var browser;
+    var page;
 
-    await page.setViewport({
-      width: 1920,
-      height: 1080
-    });
+    try {
+      browser = await puppeteer.launch({args: ['--incognito', '--no-sandbox', '--disable-setuid-sandbox']});
+      page = await browser.newPage();
+      await page.setCacheEnabled(false);
+
+      await page.setViewport({
+        width: 1920,
+        height: 1080
+      });
+    } catch(error) {
+      console.log('ERROR: Could not launch browser: ', error)
+      callback();
+      return;
+    }
     
     try {
       let pageContent = await page.goto('https://www.tesla.com/de_DE/teslaaccount/product-finalize?rn=' + config.config.rn_number, { options: { waitUntil: 'networkidle0' } });
@@ -85,7 +94,7 @@ function search(callback) {
     try {
       fs.writeFile('./vinnumber.json', JSON.stringify(cur), err => err ? console.log('Data not written: ', err) : console.log('Results saved: ' + "\n\tVIN: " + cur.vin + "\n\tVIN is revealed: " + cur.vinIsRevealed + "\n\tDelivery date: " + cur.deliveryDate + "\n"));
     } catch(error) {
-			console.log('ERROR: Could not save information in ./vinnumber.json: ', error);
+      console.log('ERROR: Could not save information in ./vinnumber.json: ', error);
       callback();
       return;
     }
@@ -102,13 +111,17 @@ function sendVin() {
     if (old.vin && cur.vin !== old.vin)
       message += ' (last VIN: ' + ( old.vin ? old.vin : 'No VIN' ) + ')';
 
-    console.log('Sending message to ' + CHAT_ID + ' - ' + message);
-    client.sendMessage(CHAT_ID, message, {
-      disable_web_page_preview: true,
-    });
+    try {
+      console.log('Sending message to ' + CHAT_ID + ' - ' + message);
+      client.sendMessage(CHAT_ID, message, {
+        disable_web_page_preview: true,
+      });
+      old.vin = cur.vin;
+    } catch(error) {
+      console.log('ERROR: Could not send message: ', error);
+      return;
+    }
   }
-
-  old.vin = cur.vin;
 }
 
 function sendVinIsRevealed() {
@@ -119,13 +132,17 @@ function sendVinIsRevealed() {
     if (old.vinIsRevealed && cur.vinIsRevealed !== old.vinIsRevealed)
       message += ' (last VIN isRevealed: ' + ( old.vinIsRevealed ? old.vinIsRevealed : 'No VIN isRevealed' ) + ')';
 
-    console.log('Sending message to ' + CHAT_ID + ' - ' + message);
-    client.sendMessage(CHAT_ID, message, {
-      disable_web_page_preview: true,
-    });
+    try {
+      console.log('Sending message to ' + CHAT_ID + ' - ' + message);
+      client.sendMessage(CHAT_ID, message, {
+        disable_web_page_preview: true,
+      });
+      old.vinIsRevealed = cur.vinIsRevealed;
+    } catch(error) {
+      console.log('ERROR: Could not send message: ', error);
+      return;
+    }
   }
-
-  old.vinIsRevealed = cur.vinIsRevealed;
 }
 
 function sendDeliveryDate() {
@@ -136,13 +153,17 @@ function sendDeliveryDate() {
     if (old.deliveryDate && cur.deliveryDate !== old.deliveryDate)
       message += ' (last delivery date: ' + ( old.deliveryDate ? old.deliveryDate : 'No delivery date' ) + ')';
 
-    console.log('Sending message to ' + CHAT_ID + ' - ' + message);
-    client.sendMessage(CHAT_ID, message, {
-      disable_web_page_preview: true,
-    });
+    try {
+      console.log('Sending message to ' + CHAT_ID + ' - ' + message);
+      client.sendMessage(CHAT_ID, message, {
+        disable_web_page_preview: true,
+      });
+      old.deliveryDate = cur.deliveryDate;
+    } catch(error) {
+      console.log('ERROR: Could not send message: ', error);
+      return;
+    }
   }
-
-  old.deliveryDate = cur.deliveryDate;
 }
 
 let cur = {
