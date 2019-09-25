@@ -1,6 +1,8 @@
 # teslavinfinder
 
-NodeJS puppeteer script to find VIN in source code of Tesla account
+NodeJS puppeteer script to find the VIN, vinIsRevealed and delivery date in source code of Tesla account.
+
+Based on the orginial script by https://github.com/Cyw00d/teslavinfinder, this script now also finds vinIsRevealed and delivery date, keeps the previous data cached and sends messages when something changes, as well.
 
 ## First time setup:
 Everything runs in the command line.
@@ -26,14 +28,11 @@ config.ts should contain the following:
 |--|--|
 | mail  | Your Tesla email address |
 | password | Your Tesla password |
-| rn_number | Your RN number which you can find in the URL when you click "Manage" in your Tesla account|
+| rn_number | Your RN number which you can find in the URL when you click "Manage" in your Tesla account |
 | bot_key | Telegram bot access token |
 |telegram_user_id | Your Telegram user ID |
-|alwayssendresult |When set to true, you will get a message anytime the script ran, otherwise only when there is a VIN found|
-|timerminutes| Set to 15, this means every 15 minutes it will do a check if there is a VIN.|
- 
-
-
+|only_send_changes | Only send a message when a change in either VIN, vinIsRevealed or delivery date is found |
+|timer_minutes | Set to 15, this means every 15 minutes it will do a check if there is a VIN |
 
 ## Run script:
 

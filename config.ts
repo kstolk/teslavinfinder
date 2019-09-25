@@ -10,6 +10,6 @@ export const config = {
     "telegram_user_id": "", // User ID of telegram to send the user to
 
     // Node JS settings:
-    "alwayssendresult": true, // Always send the result? if false it will only send a telegram message when there is a VIN found.
-    "timerminutes": 15, // The amount of each minutes you want the script to start running
+    "only_send_changes": true, // Only send a message when a change in either VIN, vinIsRevealed or delivery date is found
+    "timer_minutes": 15, // The amount of each minutes you want the script to start running
 }
