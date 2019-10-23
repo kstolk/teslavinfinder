@@ -2,7 +2,7 @@
 
 NodeJS puppeteer script to find the VIN, vinIsRevealed and delivery date in source code of Tesla account.
 
-Based on the orginial script by https://github.com/Cyw00d/teslavinfinder, this script now also finds vinIsRevealed and delivery date, keeps the previous data cached and sends messages when something changes, as well.
+This script now also finds vinIsRevealed and delivery date, keeps the previous data cached and sends messages when something changes, as well.
 
 ## First time setup:
 Everything runs in the command line.
