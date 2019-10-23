@@ -35,7 +35,7 @@ function search(callback) {
     }
     
     try {
-      let pageContent = await page.goto('https://www.tesla.com/de_DE/teslaaccount/product-finalize?rn=' + config.config.rn_number, { options: { waitUntil: 'networkidle0' } });
+      let pageContent = await page.goto('https://www.tesla.com/nl_NL/teslaaccount/product-finalize?rn=' + config.config.rn_number, { options: { waitUntil: 'networkidle0' } });
     } catch(error) {
       console.log('ERROR: Could not load product page to login: ', error)
       await browser.close();
@@ -57,7 +57,7 @@ function search(callback) {
 
     try {
       await delay(2000)
-      await page.goto('https://www.tesla.com/de_DE/teslaaccount/product-finalize?rn=' + config.config.rn_number);
+      await page.goto('https://www.tesla.com/nl_NL/teslaaccount/product-finalize?rn=' + config.config.rn_number);
       await delay(2000)
     } catch(error) {
       console.log('ERROR: Could not load product page after login: ', error);
